@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AllocatAI | Open Innovation Resource Allocator</title>
+    <meta name="description"
+        content="Intelligent resource matching for surplus and emergency demands, solving the Smart Resource Allocation challenge.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Animated ambient orbs -->
+    <div class="ambient ambient-1"></div>
+    <div class="ambient ambient-2"></div>
+    <div class="ambient ambient-3"></div>
+
+    <!-- Page entry overlay -->
+    <div class="page-loader" id="pageLoader">
+        <div class="page-loader-logo">
+            <div class="brand-icon pulse-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path
+                        d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+                    </path>
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                </svg>
+            </div>
+            <span>AllocatAI</span>
+        </div>
+        <div class="page-loader-bar">
+            <div class="page-loader-fill"></div>
+        </div>
+    </div>
+
+    <div class="wrapper" id="appWrapper">
+        <!-- Header -->
+        <header class="navbar animate-slide-down">
+            <div class="brand">
+                <div class="brand-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+                        </path>
+                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                    </svg>
+                </div>
+                <span class="brand-name">Allocat<span class="brand-gradient">AI</span></span>
+            </div>
+            <div class="header-right">
+                <div class="status-indicator" id="statusIndicator">
+                    <span class="status-pip"></span>
+                    <span class="status-label" id="statusLabel">Ready</span>
+                </div>
+                <div class="theme-badge">Smart Resource Allocation</div>
+            </div>
+        </header>
+
+        <!-- Intro Banner -->
+        <section class="banner animate-fade-up">
+            <div class="banner-content">
+                <h2>Open Innovation: <span class="gradient-text">Supply meets Demand.</span></h2>
+                <p>A smart aggregator that matches idle or surplus resources (food, supplies, volunteers) with live
+                    community demands to minimize waste and maximize impact.</p>
+            </div>
+            <div class="api-setup" id="apiBanner">
+                <label for="apiKeyInput">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" />
+                    </svg>
+                    Gemini API Key
+                </label>
+                <div class="api-input-group">
+                    <input type="password" id="apiKeyInput" placeholder="Paste your key from Google AI Studio…"
+                        autocomplete="off">
+                    <button id="saveApiKey" class="btn btn-outline">Connect</button>
+                </div>
+            </div>
+        </section>
+
+        <main class="grid">
+            <!-- Input Panel -->
+            <section class="panel input-panel animate-fade-up" style="animation-delay:0.1s">
+                <div class="panel-header">
+                    <h3>Data Ingestion</h3>
+                    <button class="btn-text" id="loadSampleData">⚡ Load Sample</button>
+                </div>
+
+                <div class="input-group">
+                    <label for="suppliesInput">
+                        <span class="status-dot green"></span> Available Resources (Supply)
+                    </label>
+                    <textarea id="suppliesInput"
+                        placeholder="e.g. 500 meals expiring in 2 days from Restaurant A, 5 idle trucks from Logistics Corp…"></textarea>
+                </div>
+
+                <div class="input-group">
+                    <label for="demandsInput">
+                        <span class="status-dot red"></span> Current Demands (Needs)
+                    </label>
+                    <textarea id="demandsInput"
+                        placeholder="e.g. Shelter B needs 200 meals tonight, Hospital C needs transport for supplies…"></textarea>
+                </div>
+
+                <button id="allocateBtn" class="btn btn-primary" disabled>
+                    <span id="btnText">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                        </svg>
+                        Generate Allocation Plan
+                    </span>
+                    <span id="btnLoader" class="hidden">
+                        <div class="thinking-dots">
+                            <span></span><span></span><span></span>
+                        </div>
+                        AI is thinking…
+                    </span>
+                </button>
+            </section>
+
+            <!-- Results Panel -->
+            <section class="panel results-panel animate-fade-up" style="animation-delay:0.2s">
+                <div class="panel-header">
+                    <h3>AI Allocation Engine</h3>
+                    <div class="ai-badge" id="aiBadge">
+                        <span class="ai-ring"></span>
+                        Gemini 2.0
+                    </div>
+                </div>
+
+                <!-- Empty State -->
+                <div id="resultsEmpty" class="results-empty">
+                    <div class="empty-orbit">
+                        <div class="orbit-ring"></div>
+                        <div class="orbit-ring orbit-ring-2"></div>
+                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5">
+                            <path d="M4 22h14a2 2 0 0 0 2-2V7.5L14.5 2H6a2 2 0 0 0-2 2v4"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <path d="M2 15h10"></path>
+                            <path d="m9 18 3-3-3-3"></path>
+                        </svg>
+                    </div>
+                    <h4>Waiting for data…</h4>
+                    <p>Input supplies and demands, then click generate to see the optimal distribution map.</p>
+                </div>
+
+                <!-- Skeleton Loader (shown when thinking) -->
+                <div id="skeletonLoader" class="skeleton-wrap hidden">
+                    <div class="skeleton-card">
+                        <div class="skeleton-line w-40"></div>
+                        <div class="skeleton-line w-80"></div>
+                        <div class="skeleton-line w-60"></div>
+                        <div class="skeleton-line w-70"></div>
+                    </div>
+                    <div class="skeleton-card">
+                        <div class="skeleton-line w-40"></div>
+                        <div class="skeleton-line w-90"></div>
+                        <div class="skeleton-line w-50"></div>
+                    </div>
+                    <div class="skeleton-card">
+                        <div class="skeleton-line w-40"></div>
+                        <div class="skeleton-line w-70"></div>
+                        <div class="skeleton-line w-80"></div>
+                    </div>
+                </div>
+
+                <!-- Results -->
+                <div id="resultsContent" class="results-content hidden">
+                    <div class="result-card" id="card-matches">
+                        <h4><span>🎯</span> Priority Matches</h4>
+                        <div id="matchContent" class="markdown-body"></div>
+                    </div>
+                    <div class="result-card" id="card-logistics">
+                        <h4><span>🚚</span> Logistics &amp; Routing</h4>
+                        <div id="logisticsContent" class="markdown-body"></div>
+                    </div>
+                    <div class="result-card impact-card" id="card-impact">
+                        <h4><span>📈</span> Projected Impact</h4>
+                        <div id="impactContent" class="markdown-body"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer animate-fade-up" style="animation-delay:0.3s">
+            Google Solution Challenge 2026 &middot; Powered by <strong>Gemini 2.0 Flash</strong>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
